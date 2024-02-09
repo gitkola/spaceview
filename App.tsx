@@ -1,11 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, Image, Text} from 'react-native';
+import {QueryClient, QueryClientProvider, useQuery} from 'react-query';
+
+const queryClient = new QueryClient();
 
 function App(): React.JSX.Element {
   const [url, setUrl] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  useQuery('pictures', () => {
     fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
       .then(res => res.json())
       .then(response => {
@@ -13,11 +16,10 @@ function App(): React.JSX.Element {
         setError(null);
       })
       .catch(e => {
-        console.log(e);
         setError(e.message);
         setUrl(null);
       });
-  }, []);
+  });
 
   return (
     <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
@@ -37,4 +39,10 @@ function App(): React.JSX.Element {
   );
 }
 
-export default App;
+export default function () {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  );
+}
