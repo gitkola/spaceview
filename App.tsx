@@ -47,7 +47,7 @@ function App(): React.JSX.Element {
             color: 'white',
             alignSelf: 'center',
           }}>
-          Error
+          Failed to load image
         </Text>
       )}
       {!!data && (
