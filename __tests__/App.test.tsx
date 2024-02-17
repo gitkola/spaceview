@@ -21,7 +21,7 @@ describe('App', () => {
     const {queryByText} = render(<App />);
 
     await waitFor(() => {
-      expect(queryByText('Error')).toBeTruthy();
+      expect(queryByText('Failed to load image')).toBeTruthy();
     });
   });
 
