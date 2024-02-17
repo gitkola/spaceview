@@ -1,48 +1,67 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, Image, Text} from 'react-native';
-import {QueryClient, QueryClientProvider, useQuery} from 'react-query';
-
-const queryClient = new QueryClient();
 
 function App(): React.JSX.Element {
-  const [url, setUrl] = useState(null);
-  const [error, setError] = useState(null);
-
-  useQuery('pictures', () => {
-    fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
-      .then(res => res.json())
-      .then(response => {
-        setUrl(response.hdurl);
-        setError(null);
-      })
-      .catch(e => {
-        setError(e.message);
-        setUrl(null);
-      });
-  });
+  const [data, setData] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      try {
+        const res = await fetch(
+          'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY',
+        );
+        const response = await res.json();
+        setData(response.hdurl);
+        setError(false);
+      } catch (e) {
+        setError(true);
+        setData('');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
-    <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
-      {error && (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: 'black',
+      }}>
+      {isLoading && (
+        <Text
+          testID="loading-indicator"
+          style={{
+            color: 'white',
+            alignSelf: 'center',
+          }}>
+          Loading...
+        </Text>
+      )}
+      {!!error && (
         <Text
           style={{
             color: 'white',
             alignSelf: 'center',
           }}>
-          {error}
+          Error
         </Text>
       )}
-      {url && (
-        <Image source={{uri: url}} resizeMode="contain" style={{flex: 1}} />
+      {!!data && (
+        <Image
+          testID="image-view"
+          source={{uri: data}}
+          resizeMode="contain"
+          style={{flex: 1}}
+        />
       )}
     </SafeAreaView>
   );
 }
 
 export default function () {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
-  );
+  return <App />;
 }
