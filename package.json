@@ -10,8 +10,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.21.7",
+    "axios": "^1.6.7",
+    "fast-text-encoding": "^1.0.6",
     "react": "18.2.0",
-    "react-native": "0.73.4"
+    "react-native": "0.73.4",
+    "react-native-config": "^1.5.1",
+    "react-native-webview": "^13.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -21,20 +26,20 @@
     "@react-native/eslint-config": "0.73.2",
     "@react-native/metro-config": "0.73.5",
     "@react-native/typescript-config": "0.73.1",
+    "@tanstack/eslint-plugin-query": "^5.20.1",
     "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react": "^14.2.1",
     "@testing-library/react-native": "^12.4.3",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
-    "@types/whatwg-fetch": "^0.0.33",
     "babel-jest": "^29.6.3",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
-    "jest-fetch-mock": "^3.0.3",
+    "msw": "^2.2.1",
     "prettier": "2.8.8",
     "react-test-renderer": "18.2.0",
-    "typescript": "5.0.4",
-    "whatwg-fetch": "^3.6.20"
+    "typescript": "5.0.4"
   },
   "engines": {
     "node": ">=18"
